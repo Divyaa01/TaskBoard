@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../model/usermodel.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 export default async function authMiddleware(req, res, next) {
     ///bearer token
@@ -18,10 +18,11 @@ export default async function authMiddleware(req, res, next) {
     
     //verify
     try {
-        const payload = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findById(decoded.id).select('-password');    
 
         if(!user) {
+            console.log('User not found 123');
             return res.status(401).json({ success:false, message: 'User not found' });
         }
 
