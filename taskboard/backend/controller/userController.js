@@ -3,11 +3,11 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
+const JWT_SECRET = process.env.JWT_SECRET || "secret";
 const TOKEN_EXPIRES = '24h';
 
 const createToken = (Userid) => {
-    return jwt.sign({Userid}, JWT_SECRET, {expiresIn: TOKEN_EXPIRES});
+    return jwt.sign({id: Userid }, JWT_SECRET, {expiresIn: TOKEN_EXPIRES});
 }
 
 //register
