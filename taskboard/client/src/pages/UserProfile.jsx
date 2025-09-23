@@ -17,7 +17,7 @@ const UserProfile = () => {
       }
 
       try {
-        const res = await axios.get('/api/user/me', {
+        const res = await axios.get('http://localhost:3000/api/user/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -29,6 +29,7 @@ const UserProfile = () => {
           setError('Failed to fetch user');
         }
       } catch (err) {
+        console.error(err);
         setError(err.response?.data?.message || 'Error fetching user');
       }
     };
@@ -38,6 +39,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    window.location.reload();
     navigate('/login');
   };
 

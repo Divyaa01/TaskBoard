@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -21,10 +23,14 @@ const Login = ({ onLoginSuccess }) => {
     try {
       setLoading(true);
       setError('');
-      const res = await axios.post('/api/user/login', formData);
+
+      // ✅ Updated URL (change if backend is hosted elsewhere)
+      const res = await axios.post('http://localhost:3000/api/user/login', formData);
 
       if (res.data.success) {
         onLoginSuccess?.(res.data);
+        // Optional: store token globally
+        localStorage.setItem('token', res.data.token);
       } else {
         setError(res.data.message || 'Login failed.');
       }
@@ -69,9 +75,17 @@ const Login = ({ onLoginSuccess }) => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-purple-600 hover:underline">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );
 };
 
 export default Login;
+//"Divya73908@gudwv"

@@ -10,7 +10,7 @@ import UserProfile from './pages/UserProfile';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check for token on mount
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setIsLoggedIn(true);
@@ -18,8 +18,8 @@ function App() {
 
   const handleLoginSuccess = (data) => {
     setIsLoggedIn(true);
-    localStorage.setItem('token', data.token); // Save token
-    localStorage.setItem('user', JSON.stringify(data.user)); // Optional
+    localStorage.setItem('token', data.token); 
+    localStorage.setItem('user', JSON.stringify(data.user)); 
   };
 
   return (

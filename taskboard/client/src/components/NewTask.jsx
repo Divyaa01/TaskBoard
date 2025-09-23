@@ -13,16 +13,26 @@ const NewTask = ({ onClose, onTaskCreated }) => {
     setError('');
 
     try {
-      const response = await axios.post('/api/tasks', {
-        title,
-        description,
-        completed: false,
-        createAt: new Date()
-      });
+      
+        
+      const token = localStorage.getItem('token'); // auth token
+      if (!token) {
+          console.error("No token found. Please log in.");
+          setLoading(false);
+          return;
+        }
+
+      const response = await axios.post(
+        'http://localhost:3000/api/tasks',
+        { title, description },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (response.data.success) {
-        onTaskCreated(response.data.task); // Inform parent
-        onClose(); // Close form
+        onTaskCreated(response.data.task); // inform parent
+        onClose(); // close modal
       } else {
         setError('Task creation failed.');
       }
@@ -41,7 +51,7 @@ const NewTask = ({ onClose, onTaskCreated }) => {
     >
       <div
         className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md"
-        onClick={(e) => e.stopPropagation()} // Prevent background click
+        onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-xl font-bold mb-4 text-gray-700">Create New Task</h2>
 

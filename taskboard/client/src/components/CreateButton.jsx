@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import NewTask from './NewTask'; // Import the form component
+import NewTask from './NewTask';
 
 const CreateButton = () => {
   const [showForm, setShowForm] = useState(false);
+  const [tasks, setTasks] = useState([]); 
 
   const handleOpen = () => setShowForm(true);
   const handleClose = () => setShowForm(false);
 
   const handleTaskCreated = (task) => {
-    console.log('Task created:', task);
-    setShowForm(false);
-    // Optional: update global task list (lift this up if needed)
+    setTasks((prev) => [...prev, task]); 
+    window.location.reload(); 
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 mt-4">
+    <div className="max-w-7xl mt-4">
       <button
         onClick={handleOpen}
         className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition"
@@ -28,6 +28,8 @@ const CreateButton = () => {
           onTaskCreated={handleTaskCreated}
         />
       )}
+
+    
     </div>
   );
 };
